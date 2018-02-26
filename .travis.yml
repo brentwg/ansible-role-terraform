@@ -1,0 +1,29 @@
+---
+services: docker
+
+env:
+  - distro: centos7
+  - distro: fedora27
+  - distro: ubuntu1604
+
+script:
+  # Configure test script so we can run extra tests after playbook is run.
+  - export container_id=$(date +%s)
+  - export cleanup=false
+
+  # Download test shim
+  - wget -O ${PWD}/tests/test.sh https://gist.github.com/brentwg/64f90bdda32a51360f71558d3171fcbb/raw/
+  - chmod +x ${PWD}/tests/test.sh
+
+  # Run tests
+  - ${PWD}/tests/test.sh
+
+  # Check application version
+  - docker exec --tty ${container_id} env TERM=xterm ls -al /usr/local/terraform
+  - docker exec --tty ${container_id} env TERM=xterm which terraform
+  - docker exec --tty ${container_id} env TERM=xterm terraform --version
+
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  
