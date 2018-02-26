@@ -1,0 +1,24 @@
+---
+- name: Ensure required packages are installed
+  package:
+    name: "{{ item }}"
+    state: "present"
+  with_items: "{{ terraform_required_packages }}"
+
+- name: "Create the download directory"
+  file:
+    path: "{{ terraform_archive_dir }}"
+    state: "directory"
+
+- name: Download and unarchive application
+  unarchive:
+    src: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_{{ terraform_arch }}.zip
+    dest: "{{ terraform_archive_dir }}"
+    remote_src: true
+    creates: "{{ terraform_archive_path }}"
+
+- name: Create exec symlink to downloaded version
+  file:
+    src: "{{ terraform_archive_path }}"
+    dest: "{{ terraform_link_path }}"
+    state: "link"
