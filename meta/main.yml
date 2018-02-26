@@ -1,0 +1,27 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: brentwg
+  description: This role installs Hashicorp's Terraform application.
+  company: "None"
+  license: "None"
+  min_ansible_version: 2.4
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  - name: Fedora
+    versions:
+      - 27
+  - name: Ubuntu
+    versions:
+    - xenial
+  galaxy_tags:
+    - development
+    - cloud
+    - orchestration
+    - hashicorp
+    - terraform
+    - devops
+    - automation
